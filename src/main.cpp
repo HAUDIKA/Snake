@@ -5,12 +5,12 @@
 
 int main() 
 {
-	Simulation game(1080, 1000, "Title");
+	Simulation game(10, 1080, 1000, "Title");
 
 	while (game.is_open())
 	{
 		game.update();
-		game.render();
+		if(game.is_open()) game.render();
 	}
 
 	return 0;
