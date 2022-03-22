@@ -1,9 +1,9 @@
 #include "Simulation.h"
 
-Simulation::Simulation(int init_map_size, int init_width, int init_height, std::string init_title):
-	window(std::make_shared<sf::RenderWindow>(sf::VideoMode(init_width, init_height), init_title)), event(sf::Event()), field(init_map_size, init_height, init_width, this->window.get())
+Simulation::Simulation(int init_map_size, int init_width, int init_height, std::string init_title) :
+	window(std::make_shared<sf::RenderWindow>(sf::VideoMode(init_width, init_height), init_title)), event(sf::Event()), field(init_map_size, init_height, init_width, this->window.get()), snake(init_map_size, init_height, init_width, this->window.get()), start(std::clock()), field_size(init_map_size), window_height(init_height), window_width(init_width), apple(Apple(window_width / 2, window_height / 2, window_width/field_size, window_width, field_size))
 {
-	this->window->setFramerateLimit(60);
+	this->window->setFramerateLimit(15);
 }
 
 Simulation::~Simulation()
@@ -12,6 +12,8 @@ Simulation::~Simulation()
 
 void Simulation::update()
 {
+	bool input_read = false;
+
 	//Reading events
 	while (this->window->pollEvent(this->event))
 	{
@@ -20,16 +22,39 @@ void Simulation::update()
 			this->window->close();
 			return;
 		}
+		else if (this->event.type == sf::Event::KeyPressed && !input_read)
+		{
+			if (this->event.key.code == sf::Keyboard::Up) this->snake.change_direction(1);
+			if (this->event.key.code == sf::Keyboard::Right) this->snake.change_direction(0);
+			if (this->event.key.code == sf::Keyboard::Down) this->snake.change_direction(3);
+			if (this->event.key.code == sf::Keyboard::Left) this->snake.change_direction(2);
+			input_read = true;
+		}
 	}
+	this->measured_time = (double)(std::clock() - this->start) / (double)CLOCKS_PER_SEC;
+	if (this->measured_time - this->time_intervall > 0)
+	{
+		this->snake.move();
 
-	this->field.update();
+		if (this->snake.get_head_pos_x() == this->apple.get_pos_x() && this->snake.get_head_pos_y() == this->apple.get_pos_y())
+		{
+			this->snake.grow();
+			this->apple.reinit();
+		}
+
+
+		this->measured_time = 0;
+		this->start = std::clock();
+	}
 }
 
 void Simulation::render()
 {
-	this->window->clear(sf::Color::Black);
+	this->window->clear(sf::Color::Blue);
 
 	this->field.draw();
+	this->snake.draw();
+	this->window->draw(this->apple.draw());
 
 	this->window->display();
 }

@@ -33,6 +33,7 @@ void Field::init_matrix()
 void Field::draw()
 {
 	sf::RectangleShape square = sf::RectangleShape(sf::Vector2f(this->window_width / this->field_size-2.f, this->window_height / this->field_size-2.f));
+	square.setFillColor(sf::Color::Black);
 	
 
 	int row_counter = 0;
@@ -43,7 +44,6 @@ void Field::draw()
 		col_counter = 0;
 		for (auto col : row)
 		{
-			if(col == 0) square.setFillColor(sf::Color::Green);
 
 			square.setPosition(sf::Vector2f(col_counter * this->window_width / this->field_size+1.f, row_counter * this->window_height / this->field_size+1.f));
 			this->window->draw(square);

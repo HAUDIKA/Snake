@@ -5,7 +5,7 @@
 
 int main() 
 {
-	Simulation game(10, 1080, 1000, "Title");
+	Simulation game(20, 1000, 1000, "Snake Game");
 
 	while (game.is_open())
 	{

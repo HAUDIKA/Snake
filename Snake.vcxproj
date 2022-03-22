@@ -151,13 +151,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Apple.cpp" />
     <ClCompile Include="src\Field.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Segment.cpp" />
     <ClCompile Include="src\Simulation.cpp" />
+    <ClCompile Include="src\Snake.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Apple.h" />
     <ClInclude Include="src\Field.h" />
+    <ClInclude Include="src\Segment.h" />
     <ClInclude Include="src\Simulation.h" />
+    <ClInclude Include="src\Snake.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

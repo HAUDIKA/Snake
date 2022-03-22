@@ -2,8 +2,11 @@
 
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include <random>
 
 #include "Field.h"
+#include "Snake.h"
+#include "Apple.h"
 
 
 class Simulation
@@ -32,6 +35,18 @@ protected:
 	std::shared_ptr<sf::RenderWindow> window;
 	sf::Event event;
 
+	int field_size;
+	int window_height;
+	int window_width;
+
 	Field field;
+	Snake snake;
+	Apple apple;
+
+	double time_intervall = 0.01;
+	double measured_time = 0;
+	std::clock_t start;
+
+
 };
 
