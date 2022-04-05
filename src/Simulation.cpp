@@ -1,9 +1,16 @@
 #include "Simulation.h"
 
 Simulation::Simulation(int init_map_size, int init_width, int init_height, std::string init_title) :
-	window(std::make_shared<sf::RenderWindow>(sf::VideoMode(init_width, init_height), init_title)), event(sf::Event()), field(init_map_size, init_height, init_width, this->window.get()), snake(init_map_size, init_height, init_width, this->window.get()), start(std::clock()), field_size(init_map_size), window_height(init_height), window_width(init_width), apple(Apple(window_width / 2, window_height / 2, window_width/field_size, window_width, field_size))
+	window(std::make_shared<sf::RenderWindow>(sf::VideoMode(init_width, init_height), init_title)), 
+	event(sf::Event()), 
+	field(init_map_size, init_height, init_width, this->window.get()),
+	snake(init_map_size, this->field.get_matrix()),
+	start(std::clock()), field_size(init_map_size),
+	window_height(init_height), window_width(init_width), 
+	apple(Apple(window_width / 2, window_height / 2, window_width/field_size, window_width, field_size))
 {
 	this->window->setFramerateLimit(15);
+	this->snake = Snake(init_map_size, this->field.get_matrix());
 }
 
 Simulation::~Simulation()
@@ -24,10 +31,10 @@ void Simulation::update()
 		}
 		else if (this->event.type == sf::Event::KeyPressed && !input_read)
 		{
-			if (this->event.key.code == sf::Keyboard::Up) this->snake.change_direction(1);
 			if (this->event.key.code == sf::Keyboard::Right) this->snake.change_direction(0);
-			if (this->event.key.code == sf::Keyboard::Down) this->snake.change_direction(3);
+			if (this->event.key.code == sf::Keyboard::Up) this->snake.change_direction(1);
 			if (this->event.key.code == sf::Keyboard::Left) this->snake.change_direction(2);
+			if (this->event.key.code == sf::Keyboard::Down) this->snake.change_direction(3);
 			input_read = true;
 		}
 	}
@@ -52,8 +59,8 @@ void Simulation::render()
 {
 	this->window->clear(sf::Color::Blue);
 
-	this->field.draw();
 	this->snake.draw();
+	this->field.draw();
 	this->window->draw(this->apple.draw());
 
 	this->window->display();

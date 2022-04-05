@@ -10,7 +10,7 @@
 class Snake
 {
 public:
-	Snake(int init_field_size, int init_window_height, int init_window_width, sf::RenderWindow* init_window);
+	Snake(int init_field_size, std::vector<std::vector<int>>* init_matrix);
 	~Snake();
 
 	void move();
@@ -28,13 +28,9 @@ public:
 private:
 
 	int field_size;
-	int window_height;
-	int window_width;
-
-	int square_size;
 
 	std::list<Segment> snake;
 
-	sf::RenderWindow* window;
+	std::vector<std::vector<int>>* matrix;
 
 };

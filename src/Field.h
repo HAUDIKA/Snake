@@ -18,11 +18,13 @@ public:
 
     void init_matrix();
 
+    std::vector<std::vector<int>>* get_matrix();
+
     void draw();
     
 private:
 
-    std::vector<std::vector<int>> matrix;
+    std::shared_ptr<std::vector<std::vector<int>>> matrix;
 
     sf::RenderWindow* window;
 

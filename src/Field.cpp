@@ -19,6 +19,8 @@ void Field::init_matrix()
 {
 	std::vector<int> temp_vector;
 
+	this->matrix = std::make_shared<std::vector<std::vector<int>>>();
+
 	for (int i = 0; i < this->field_size; i++)
 	{
 		temp_vector.push_back(0);
@@ -26,24 +28,31 @@ void Field::init_matrix()
 
 	for (int i = 0; i < this->field_size; i++)
 	{
-		this->matrix.push_back(temp_vector);
+		this->matrix.get()->push_back(temp_vector);
 	}
+}
+
+std::vector<std::vector<int>>* Field::get_matrix()
+{
+	return this->matrix.get();
 }
 
 void Field::draw()
 {
 	sf::RectangleShape square = sf::RectangleShape(sf::Vector2f(this->window_width / this->field_size-2.f, this->window_height / this->field_size-2.f));
-	square.setFillColor(sf::Color::Black);
+	
 	
 
 	int row_counter = 0;
 	int col_counter = 0;
 
-	for (auto row : this->matrix)
+	for (auto row : *matrix)
 	{
 		col_counter = 0;
 		for (auto col : row)
 		{
+			if(col == 0) square.setFillColor(sf::Color::Black);
+			else if(col == 1) square.setFillColor(sf::Color::Green);
 
 			square.setPosition(sf::Vector2f(col_counter * this->window_width / this->field_size+1.f, row_counter * this->window_height / this->field_size+1.f));
 			this->window->draw(square);
