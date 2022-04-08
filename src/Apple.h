@@ -8,7 +8,7 @@ class Apple
 {
 public:
 
-	Apple(int init_pos_x, int init_pos_y, int init_square_size, int init_window_size, int init_field_size);
+	Apple(int init_pos_x, int init_pos_y, int init_field_size, std::vector<std::vector<int>>* init_matrix);
 
 	int get_pos_x();
 	int get_pos_y();
@@ -21,6 +21,6 @@ private:
 	int pos_y;
 
 	int field_size;
-	int square_size;
-	int window_size;
+
+	std::vector<std::vector<int>>* matrix;
 };

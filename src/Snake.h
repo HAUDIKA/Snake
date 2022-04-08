@@ -19,7 +19,7 @@ public:
 	int get_head_pos_x();
 	int get_head_pos_y();
 
-	void draw();
+	int update();
 
 	void grow();
 

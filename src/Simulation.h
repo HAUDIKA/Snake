@@ -41,8 +41,8 @@ protected:
 	int window_width;
 
 	Field field;
-	Snake snake;
-	Apple apple;
+
+	
 
 	double time_intervall = 0.01;
 	double measured_time = 0;

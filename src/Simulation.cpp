@@ -4,13 +4,10 @@ Simulation::Simulation(int init_map_size, int init_width, int init_height, std::
 	window(std::make_shared<sf::RenderWindow>(sf::VideoMode(init_width, init_height), init_title)), 
 	event(sf::Event()), 
 	field(init_map_size, init_height, init_width, this->window.get()),
-	snake(init_map_size, this->field.get_matrix()),
 	start(std::clock()), field_size(init_map_size),
-	window_height(init_height), window_width(init_width), 
-	apple(Apple(window_width / 2, window_height / 2, window_width/field_size, window_width, field_size))
+	window_height(init_height), window_width(init_width)
 {
 	this->window->setFramerateLimit(15);
-	this->snake = Snake(init_map_size, this->field.get_matrix());
 }
 
 Simulation::~Simulation()
@@ -31,24 +28,17 @@ void Simulation::update()
 		}
 		else if (this->event.type == sf::Event::KeyPressed && !input_read)
 		{
-			if (this->event.key.code == sf::Keyboard::Right) this->snake.change_direction(0);
-			if (this->event.key.code == sf::Keyboard::Up) this->snake.change_direction(1);
-			if (this->event.key.code == sf::Keyboard::Left) this->snake.change_direction(2);
-			if (this->event.key.code == sf::Keyboard::Down) this->snake.change_direction(3);
+			if (this->event.key.code == sf::Keyboard::Right) this->field.update_snake(0);
+			if (this->event.key.code == sf::Keyboard::Up) this->field.update_snake(1);
+			if (this->event.key.code == sf::Keyboard::Left) this->field.update_snake(2);
+			if (this->event.key.code == sf::Keyboard::Down) this->field.update_snake(3);
 			input_read = true;
 		}
 	}
 	this->measured_time = (double)(std::clock() - this->start) / (double)CLOCKS_PER_SEC;
 	if (this->measured_time - this->time_intervall > 0)
 	{
-		this->snake.move();
-
-		if (this->snake.get_head_pos_x() == this->apple.get_pos_x() && this->snake.get_head_pos_y() == this->apple.get_pos_y())
-		{
-			this->snake.grow();
-			this->apple.reinit();
-		}
-
+		this->field.update_move();
 
 		this->measured_time = 0;
 		this->start = std::clock();
@@ -59,9 +49,8 @@ void Simulation::render()
 {
 	this->window->clear(sf::Color::Blue);
 
-	this->snake.draw();
+	
 	this->field.draw();
-	this->window->draw(this->apple.draw());
 
 	this->window->display();
 }

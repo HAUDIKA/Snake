@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+#include "Apple.h"
+#include "Snake.h"
 
 class Field
 {
@@ -14,13 +16,18 @@ public:
     ~Field();
 
 
-    void update();
+    void update_apple();
+
+    void update_snake(int new_direction);
+
+    void update_move();
 
     void init_matrix();
 
     std::vector<std::vector<int>>* get_matrix();
 
     void draw();
+
     
 private:
 
@@ -32,7 +39,10 @@ private:
     const int window_width;
     const int window_height;
 
+    Apple apple;
+    Snake snake;
 
+    sf::CircleShape apple_shape;
 
 };
 

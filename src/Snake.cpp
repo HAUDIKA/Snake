@@ -15,14 +15,14 @@ Snake::~Snake()
 
 void Snake::move()
 {
-
-	
-
 	int counter = 0;
 
 	int new_pos_x = this->snake.begin()->get_pos_x();
 	int new_pos_y = this->snake.begin()->get_pos_y();
 	int new_direction = this->snake.begin()->get_direction();
+
+
+	
 
 	if (this->snake.begin()->get_direction() == 0)
 	{
@@ -89,12 +89,27 @@ int Snake::get_head_pos_y()
 	return snake.begin()->get_pos_y();
 }
 
-void Snake::draw()
+int Snake::update()
 {
+	int flag = 0;
+
+	if (this->matrix->at(this->snake.begin()->get_pos_y()).at(snake.begin()->get_pos_x()) == 1)
+	{
+		return 2;
+	}
+
 	for (auto snake_segment : snake)
 	{
+		if (this->matrix->at(snake_segment.get_pos_y()).at(snake_segment.get_pos_x()) == 2)
+		{
+			this->grow();
+			flag = 1;
+		}
+		
 		this->matrix->at(snake_segment.get_pos_y()).at(snake_segment.get_pos_x()) = 1;
 	}
+
+	return flag;
 }
 
 void Snake::grow()
